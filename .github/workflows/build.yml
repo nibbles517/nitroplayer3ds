@@ -40,7 +40,7 @@ jobs:
           TAG: ${{ github.ref_name }}
         run: |
           gh release view "$TAG" -R "$GITHUB_REPOSITORY" >/dev/null 2>&1 || \
-            gh release create "$TAG" -R "$GITHUB_REPOSITORY" --title "NDS Music Player ${TAG#v}" --notes ""
+            gh release create "$TAG" -R "$GITHUB_REPOSITORY" --title "NTRPlayer 3DS ${TAG#v}" --notes ""
           gh release upload "$TAG" ndsmusicplayer.3dsx -R "$GITHUB_REPOSITORY" --clobber
 
   core-tests:

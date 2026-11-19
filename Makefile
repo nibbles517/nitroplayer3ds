@@ -1,5 +1,5 @@
 #---------------------------------------------------------------------------------
-# NDS Music Player - devkitARM / libctru build (produces ndsmusicplayer.3dsx)
+# NTRPlayer 3DS - devkitARM / libctru build (produces ndsmusicplayer.3dsx)
 #---------------------------------------------------------------------------------
 .SUFFIXES:
 
@@ -15,7 +15,7 @@ BUILD           := build
 SOURCES         := source source/core
 INCLUDES        := source source/core
 
-APP_TITLE       := NDS Music Player
+APP_TITLE       := NTRPlayer 3DS
 APP_DESCRIPTION := Play DS music from .nds ROMs and NCSF files
 APP_AUTHOR      := nibbles517
 

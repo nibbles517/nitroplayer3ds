@@ -1,5 +1,5 @@
 /*
- * NDS Music Player - plays Nintendo DS music straight from .nds ROMs and from NCSF rips.
+ * NTRPlayer 3DS - plays Nintendo DS music straight from .nds ROMs and from NCSF rips.
  *
  * Top screen: now playing.  Bottom screen: SD card browser / song list.
  */
@@ -521,7 +521,7 @@ static void advance(int dir, bool automatic) {
 
 static void draw_top(void) {
     consoleSelect(&top_con);
-    put_line(0, TOP_W, "\x1b[47;30m", " NDS Music Player v" APP_VERSION);
+    put_line(0, TOP_W, "\x1b[47;30m", " NTRPlayer 3DS v" APP_VERSION);
 
     uint32_t pos = 0;
     int loops = 0;

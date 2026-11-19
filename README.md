@@ -1,4 +1,4 @@
-# NDS Music Player (3DS)
+# NTRPlayer 3DS
 
 A Nintendo 3DS homebrew app that plays Nintendo DS music **straight from `.nds` ROM files** and from **NCSF / miniNCSF** rips.
 It finds the game's sound archive (SDAT) inside the ROM, lists every sequence and stream, and plays them with a software
