@@ -60,78 +60,11 @@ the rarely used volume/pan LFOs and a few slide commands are not.
 2. Make sure `sdmc:/3ds/dspfirm.cdc` exists (run **DSP1** once if you've never done it). Without it, there's no sound.
 3. Put your ROM dumps and NCSF files anywhere on the SD card and launch the app from the Homebrew Launcher.
 
-## Building
-
-### GitHub Actions (no local setup)
-
-Every push runs `.github/workflows/build.yml`, which builds the `.3dsx` inside the official `devkitpro/devkitarm`
-container and attaches it to the run as an artifact (**Actions** tab → latest run → *ndsmusicplayer-3dsx*). It also
-builds the PC tools and renders the synthetic test songs with sanitizers on.
-
-### Locally
-
-Install [devkitPro](https://devkitpro.org/wiki/Getting_Started) with the `3ds-dev` group, then from this folder:
-
-```sh
-make
-```
-
-On Windows, run that from the devkitPro MSYS2 shell.
-
-## Project layout
-
-```
-source/            3DS front end
-  main.c           UI: file browser, song list, now-playing screen
-  audio.c          ndsp output thread
-  browser.c        SD card directory listing
-source/core/       portable C99 player core (no 3DS dependencies)
-  datasource.c     memory / FILE* random-access reader
-  nds_rom.c        NDS header + NitroFS walker, SDAT discovery
-  nds_music.c      open a ROM, find and parse its SDATs
-  nds_banner.c     DS Menu icon (static + DSi animated) and titles
-  sdat.c           SDAT parser (INFO/SYMB/FAT), loads a song's SSEQ+SBNK+SWARs
-  wave.c           SWAV/SWAR decoding (PCM8, PCM16, IMA-ADPCM)
-  sseq.c           sequencer, instruments, envelopes, LFO, mixer
-  strm.c           streamed audio
-  ncsf.c           NCSF/miniNCSF loader and tags
-  dse.c            DSE (Procyon) sequencer, instruments, envelopes and mixer
-  dse_set.c        finds a DSE game's songs and sample banks
-  twosf.c          2SF sets of DSE games: streams the .2sflib, reads song numbers
-  inflate.c        small zlib decompressor (whole-buffer or streaming)
-  song.c           one playable song + loop/length/fade handling
-tools/
-  render_wav.c     render any song to a .wav on PC using the same core
-  sdat_list.c      list a ROM's SDATs, sequences and streams; dump a song's files
-  banner_dump.c    print a ROM's banner titles/animation and save each icon frame as .ppm
-  make_music_rom.py  builds a synthetic test ROM + NCSF (no game data)
-  make_test_rom.py   builds minimal ROMs for parser tests
-```
-
 ## Using the player in other projects
 
 Everything under `source/core/` is plain C99 with no 3DS dependencies, so it can be dropped into other homebrew
 (game ports in particular) to play a game's own DS music. [pmd-red-3ds](https://github.com/nibbles517/pmd-red-3ds)
 uses it this way. `source/audio.c` shows how to feed it to the 3DS's sound hardware with ndsp.
-
-## PC tools
-
-From the repo root (any C99 compiler; on Windows use MSYS2/MinGW):
-
-```sh
-cc -std=c99 -O2 -Isource/core tools/render_wav.c source/core/[a-z]*.c -lm -o render_wav
-cc -std=c99 -O2 -Isource/core tools/sdat_list.c  source/core/[a-z]*.c -lm -o sdat_list
-cc -std=c99 -O2 -Isource/core tools/banner_dump.c source/core/[a-z]*.c -lm -o banner_dump
-
-./sdat_list game.nds                       # list songs
-./render_wav game.nds out.wav -q 12        # render sequence 12
-./render_wav game.nds out.wav -t 0         # render stream 0
-./render_wav game.nds out.wav -a 2 -q 15   # render sound effect 15 of archive 2
-./render_wav song.minincsf out.wav         # render an NCSF
-./render_wav song.mini2sf out.wav          # render a 2SF song of a DSE game
-./render_wav eos.nds out.wav -b 159        # render DSE song bgm0159 from a ROM
-./banner_dump game.nds icon_                # titles + icon frames (icon_0.ppm, ...)
-```
 
 ## Limitations
 
