@@ -1,0 +1,12 @@
+build/
+*.3dsx
+*.smdh
+*.elf
+*.map
+*.wav
+/render_wav
+/sdat_list
+/banner_dump
+*.ppm
+*.exe
+__pycache__/
